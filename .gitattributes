@@ -1,0 +1,26 @@
+# Wolfram download files — large binaries tracked via Git LFS
+# Only files explicitly placed in wolfram/downloads/ are LFS-tracked.
+# Do NOT commit private notebook sources; only publish-intended files here.
+wolfram/downloads/*.nb  filter=lfs diff=lfs merge=lfs -text
+wolfram/downloads/*.cdf filter=lfs diff=lfs merge=lfs -text
+wolfram/downloads/*.wl  filter=lfs diff=lfs merge=lfs -text
+
+# Generated media from Wolfram exports
+wolfram/media/*.gif  filter=lfs diff=lfs merge=lfs -text
+wolfram/media/*.mp4  filter=lfs diff=lfs merge=lfs -text
+
+# General binary media
+*.gif  filter=lfs diff=lfs merge=lfs -text
+*.mp4  filter=lfs diff=lfs merge=lfs -text
+*.png  filter=lfs diff=lfs merge=lfs -text
+*.jpg  filter=lfs diff=lfs merge=lfs -text
+*.jpeg filter=lfs diff=lfs merge=lfs -text
+*.pdf  filter=lfs diff=lfs merge=lfs -text
+
+# Text line endings
+*.php  text eol=lf
+*.css  text eol=lf
+*.js   text eol=lf
+*.html text eol=lf
+*.md   text eol=lf
+*.sh   text eol=lf

@@ -1,0 +1,53 @@
+# WordPress core — not committed (installed locally by DDEV / on server by deploy)
+wp-admin/
+wp-includes/
+wp-*.php
+xmlrpc.php
+index.php
+license.txt
+readme.html
+
+# WordPress config — contains secrets, never commit
+wp-config.php
+
+# WordPress uploads — binary assets, managed separately
+wp-content/uploads/
+
+# WordPress generated / cache
+wp-content/cache/
+wp-content/upgrade/
+wp-content/backup-db/
+
+# Plugins — installed via wp-cli or Softaculous; commit only custom ones
+wp-content/plugins/
+# Re-include any plugin you develop in this repo:
+# !wp-content/plugins/fairflow-*/
+
+# Themes — commit your custom theme; ignore others
+wp-content/themes/twenty*/
+
+# DDEV
+.ddev/.env
+.ddev/homeadditions/
+.ddev/import-db/
+
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node
+node_modules/
+npm-debug.log*
+
+# Logs
+*.log
+.env.local
+deploy/.env.local
+.env.local
+import/
