@@ -39,19 +39,19 @@ function fairflow_enqueue() {
 }
 add_action( 'wp_enqueue_scripts', 'fairflow_enqueue' );
 
-// ── Wolfram Notebook Embedder (loaded only on pages that need it) ─────────────
-function fairflow_enqueue_wolfram() {
-	if ( get_post_meta( get_the_ID(), '_fairflow_wolfram', true ) ) {
-		wp_enqueue_script(
-			'wolfram-embedder',
-			'https://www.wolframcloud.com/obj/wolframnotebooks/embedder/WolframNotebookEmbedder.js',
-			[],
-			null,
-			true
-		);
-	}
+// ── Wolfram Notebook Embedder ────────────────────────────────────────────────
+// Registered up front; enqueued from the shortcode at render time (the script
+// prints in the footer, so mid-render enqueue is safe and page-view-1 correct).
+function fairflow_register_wolfram() {
+	wp_register_script(
+		'wolfram-embedder',
+		'https://unpkg.com/wolfram-notebook-embedder@0.3/dist/wolfram-notebook-embedder.min.js',
+		[],
+		null,
+		true
+	);
 }
-add_action( 'wp_enqueue_scripts', 'fairflow_enqueue_wolfram' );
+add_action( 'wp_enqueue_scripts', 'fairflow_register_wolfram' );
 
 // ── Content width ─────────────────────────────────────────────────────────────
 if ( ! isset( $content_width ) ) {
@@ -92,8 +92,7 @@ function fairflow_wolfram_embed_shortcode( $atts ) {
 		return '<p class="wolfram-error">[wolfram_embed: no url provided]</p>';
 	}
 
-	// Mark post as needing the embedder script.
-	add_post_meta( get_the_ID(), '_fairflow_wolfram', true, true );
+	wp_enqueue_script( 'wolfram-embedder' );
 
 	$embed_id = 'wn-' . md5( $a['url'] );
 	ob_start();
@@ -121,13 +120,16 @@ function fairflow_wolfram_embed_shortcode( $atts ) {
 		<?php endif; ?>
 	</div>
 	<script>
-	document.addEventListener('DOMContentLoaded', function () {
+	window.addEventListener('load', function () {
 		if (typeof WolframNotebookEmbedder !== 'undefined') {
+			var node = document.getElementById(<?php echo wp_json_encode( $embed_id ); ?>);
+			var attrs = { maxHeight: <?php echo intval( $a['height'] ); ?> };
+			<?php if ( is_numeric( $a['width'] ) ) : ?>
+			attrs.width = <?php echo intval( $a['width'] ); ?>;
+			<?php endif; ?>
+			node.innerHTML = '';
 			WolframNotebookEmbedder.embed(
-				<?php echo wp_json_encode( $a['url'] ); ?>,
-				document.getElementById(<?php echo wp_json_encode( $embed_id ); ?>),
-				{ width: <?php echo wp_json_encode( $a['width'] ); ?>,
-				  height: <?php echo intval( $a['height'] ); ?> }
+				<?php echo wp_json_encode( $a['url'] ); ?>, node, attrs
 			);
 		}
 	});
