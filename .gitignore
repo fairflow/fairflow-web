@@ -51,3 +51,4 @@ npm-debug.log*
 deploy/.env.local
 .env.local
 import/
+wp-content/languages/
