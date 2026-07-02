@@ -250,6 +250,8 @@ hr {
 
 .entry-content figure img {
   margin: 0 auto;
+  width: auto;
+  max-width: min(100%, 560px);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
