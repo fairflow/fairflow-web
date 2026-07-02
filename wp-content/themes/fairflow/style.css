@@ -243,6 +243,25 @@ hr {
   margin: 1rem 0;
 }
 
+.entry-content figure {
+  margin: 1.8rem 0;
+  text-align: center;
+}
+
+.entry-content figure img {
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.entry-content figcaption {
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  color: var(--muted);
+  margin-top: 0.5rem;
+}
+
 /* =========================================================================
    Archive / Blog list
    ========================================================================= */
